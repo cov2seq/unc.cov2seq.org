@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<head>
+  <title>UNC SARS-CoV-2 Surveillance</title>
+  <script src="main_simple.js"></script>
+  <script src="marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+  <link rel="icon" type="image/png" href="cov.png">
+  <style>
+    body {
+      font-family: "Open Sans";
+      padding: 1em; 
+    }
+    table {
+      font-family: monospace;
+      border-spacing: 0;
+      border-collapse: collapse;
+    }
+    td {
+      padding: 5px;
+      border: 1px solid #AAAAAA;
+    }
+    hr {
+      height: 1px;
+      width: 100%;
+      border: 0px;
+      background-color: #AAAAAA;
+    }
+  </style>
+<body>
+  <div id="content">
+    <h2>UNC surveillance report - <div id="report_date"></div></h2>
+
+    Contributors: <i>Jeremy Wang, Alexander Rubinsteyn, Corbin Jones, Melissa Miller, Robert Hagan, Amy James Loftis, Amir Barzin, Susan Fiscus</i>
+
+    <h3>Total: <a style='color:red'><div id="sample_count"></div> genomes</a></h3>
+
+    <h3>Including samples through: <div id="sample_date" style='color:red'></div></h3>
+
+    <p>
+    We are conducting ongoing surveillance of the SARS-CoV-2 genotypes circulating in central NC. We collect leftover material from nasopharyngeal swab samples that tested qPCR positive at UNC Hospitals. We performed whole-genome nanopore sequencing based on tiled PCR amplification targeting SARS-CoV-2 using all or a subset of <a href="https://artic.network/ncov-2019">ARTIC</a> primers.
+    </p>
+
+    Contact: unc@cov2seq.org
+  </div>
+  <div id="variants" style='width:800px; height: 400px'>
+  </div>
+  <div id="voc">
+  </div>
+</body>
+</html>
+
