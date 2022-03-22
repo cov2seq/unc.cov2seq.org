@@ -85,7 +85,7 @@ function trends(meta, eid2, eid) {
   for(var w = 0; w < max_week; w++) {
     let en = new Date(st.getTime());;
     en.setDate(en.getDate() + 6);
-    dates.push((st.getYear()-100) + "-" + (st.getMonth()+1) + "-" + st.getDate() + " > " + (en.getYear()-100) + "-" + (en.getMonth()+1) + "-" + en.getDate());
+    dates.push("Week of " + st.toLocaleString('default', { month: 'long' }) + " " + st.getDate() + ", " + (st.getYear()-100));
     st.setDate(st.getDate() + 7);
   }
 
@@ -284,7 +284,7 @@ function trends(meta, eid2, eid) {
     },
     series: apex,
     xaxis: {
-      categories: end_dates
+      categories: dates
     },
     tooltip: {
       y: {
