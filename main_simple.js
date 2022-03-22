@@ -64,7 +64,7 @@ function init() {
         temp[parts[0]][header[j]] = parts[j];
       }
     }
-    document.getElementById("sample_count").innerText = (lines.length-1)n.toLocaleString("en-US");
+    document.getElementById("sample_count").innerText = (lines.length-1).toLocaleString("en-US");
     meta = temp; // we use the temp to reduce the time that 'meta' is not null such that check_var() could come up true without meta being fully populated
     trends(meta, "variants", "voc");
   });
