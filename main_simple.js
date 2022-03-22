@@ -85,7 +85,7 @@ function trends(meta, eid2, eid) {
   for(var w = 0; w < max_week; w++) {
     let en = new Date(st.getTime());;
     en.setDate(en.getDate() + 6);
-    dates.push("Week of " + st.toLocaleString('default', { month: 'long' }) + " " + st.getDate() + ", " + (st.getYear()-100));
+    dates.push("Week of " + st.toLocaleString('default', { month: 'long' }) + " " + st.getDate() + ", " + (1900+st.getYear()));
     st.setDate(st.getDate() + 7);
   }
 
@@ -297,6 +297,7 @@ function trends(meta, eid2, eid) {
 
   document.getElementById(eid2).innerHTML = '';
   var chart = new ApexCharts(document.querySelector('#'+eid2), options)
+  chart.zoomX(dates[dates.length-15], dates[dates.length-1]);
   chart.render()
 }
 
