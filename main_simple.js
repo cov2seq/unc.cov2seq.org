@@ -51,7 +51,9 @@ let meta = null; // metadata
 
 function init() {
 
-  loadText("data/JW0001_5556.meta_simple.tsv", function(content) {
+  document.getElementById("report_date").innerText = "March 19, 2022";
+  document.getElementById("sample_date").innerText = "March 9, 2022";
+  loadText("220319.meta_simple.tsv", function(content) {
     temp = [];
     lines = content.trim().split('\n');
     header = lines[0].split('\t');
@@ -62,6 +64,7 @@ function init() {
         temp[parts[0]][header[j]] = parts[j];
       }
     }
+    document.getElementById("sample_count").innerText = (lines.length-1)n.toLocaleString("en-US");;
     meta = temp; // we use the temp to reduce the time that 'meta' is not null such that check_var() could come up true without meta being fully populated
     trends(meta, "variants", "voc");
   });
