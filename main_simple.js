@@ -264,6 +264,8 @@ function trends(meta, eid2, eid) {
     colors: cl,
     chart: {
       type: 'line',
+      width: "100%",
+      height: "100%"
     },
     stroke: {
       curve: 'smooth'
@@ -290,9 +292,7 @@ function trends(meta, eid2, eid) {
           return value.toFixed(1)+" %";
         }
       }
-    },
-    width: "100%",
-    height: "100%"
+    }
   }
 
   document.getElementById(eid2).innerHTML = '';
