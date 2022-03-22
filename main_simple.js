@@ -296,9 +296,9 @@ function trends(meta, eid2, eid) {
   }
 
   document.getElementById(eid2).innerHTML = '';
-  var chart = new ApexCharts(document.querySelector('#'+eid2), options)
+  var chart = new ApexCharts(document.querySelector('#'+eid2), options);
+  chart.render();
   chart.zoomX(dates[dates.length-15], dates[dates.length-1]);
-  chart.render()
 }
 
 
