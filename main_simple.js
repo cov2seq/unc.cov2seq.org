@@ -265,7 +265,7 @@ function trends(meta, eid2, eid) {
     chart: {
       type: 'line',
       width: "100%",
-      height: "100%"
+      height: "400px"
     },
     stroke: {
       curve: 'smooth'
