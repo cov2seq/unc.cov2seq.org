@@ -40,13 +40,12 @@ function loadText(file, callback) {
 
 function loadJSON(file, callback) {   
   loadText(file, function(content) {
-    console.log(content);
     callback(JSON.parse(content));
   });
 }
 
 // GLOBALS
-let phylo = null; // parsed Newick tree
+let apex = null; // chart
 let meta = null; // metadata
 
 function init() {
@@ -85,7 +84,8 @@ function trends(meta, eid2, eid) {
   for(var w = 0; w < max_week; w++) {
     let en = new Date(st.getTime());;
     en.setDate(en.getDate() + 6);
-    dates.push("Week of " + st.toLocaleString('default', { month: 'long' }) + " " + st.getDate() + ", " + (1900+st.getYear()));
+    //dates.push("Week of " + st.toLocaleString('default', { month: 'long' }) + " " + st.getDate() + ", " + (1900+st.getYear()));
+    dates.push(st.getTime());
     st.setDate(st.getDate() + 7);
   }
 
@@ -209,7 +209,8 @@ function trends(meta, eid2, eid) {
     tr = document.createElement("tr");
     table.appendChild(tr);
     col = document.createElement("th");
-    col.innerText = dates[i];
+    let d = new Date(dates[i]);
+    col.innerText = d.toLocaleString('default', { month: 'short' }) + " " + d.getDate() + ", " + (1900+d.getYear());
     tr.appendChild(col);
     col = document.createElement("td");
     col.innerText = wk_tot[i];
@@ -219,16 +220,19 @@ function trends(meta, eid2, eid) {
   apex = []
 
   // total VOI/C
-  y = new Array(dates.length).fill(0);
+  y = new Array(dates.length);
+  for(var i = 0; i < dates.length; i++) {
+    y[i] = [dates[i], 0];
+  }
 	for(l in lineages) {
     if((!(l in voi) && l.indexOf("AY") == -1)) {
       for(i = 0; i < lineages[l].length; i++) {
-        y[i] += lineages[l][i];
+        y[i][1] += lineages[l][i];
       }
     }
   }
   for(var j = 0; j < y.length; j++) {
-    y[j] = y[j] / cts[j] * 100;
+    y[j][1] = y[j][1] / cts[j] * 100;
   }
   apex.push({"name":"Other", "data":y});
 
@@ -240,32 +244,36 @@ function trends(meta, eid2, eid) {
     variants[voi[pango]].push(pango);
   }
 
-	for(v in variants) {
+  for(v in variants) {
     if(["-", "Zeta", "Theta", "Kappa", "Eta"].indexOf(v) != -1) continue;
-    y = new Array(dates.length).fill(0);
+    y = new Array(dates.length);
+    for(var i = 0; i < dates.length; i++) {
+      y[i] = [dates[i], 0];
+    }
     for(l in lineages) {
       if(variants[v].indexOf(l) != -1 || (v == "Delta" && l.indexOf("AY") != -1)) {
         for(i = 0; i < lineages[l].length; i++) {
-          y[i] += lineages[l][i];
+          y[i][1] += lineages[l][i];
         }
       }
     }
-		for(var j = 0; j < y.length; j++) {
-			y[j] = y[j] / cts[j] * 100;
-		}
+    for(var j = 0; j < y.length; j++) {
+      y[j][1] = y[j][1] / cts[j] * 100;
+    }
     apex.push({"name":v, "data":y});
-	}
-
-  let end_dates = [];
-  for(i = 0; i < dates.length; i++) {
-    end_dates.push(dates[i].substr(dates[i].indexOf(">")+2));
   }
+
   var options = {
     colors: cl,
     chart: {
       type: 'line',
       width: "100%",
-      height: "400px"
+      height: "400px",
+      events : {
+        beforeZoom : (e, {xaxis}) => {
+          return {xaxis: {min:(xaxis.min < dates[0] ? dates[0] : xaxis.min), max:(xaxis.max > dates[dates.length-1] ? dates[dates.length-1] : xaxis.max)}};
+        }
+      }
     },
     stroke: {
       curve: 'smooth'
@@ -284,7 +292,9 @@ function trends(meta, eid2, eid) {
     },
     series: apex,
     xaxis: {
-      categories: dates
+      type: "datetime",
+      min: dates[0],
+      max: dates[dates.length-1],
     },
     tooltip: {
       y: {
@@ -298,7 +308,9 @@ function trends(meta, eid2, eid) {
   document.getElementById(eid2).innerHTML = '';
   var chart = new ApexCharts(document.querySelector('#'+eid2), options);
   chart.render();
+  //setTimeout(function() {
   chart.zoomX(dates[dates.length-15], dates[dates.length-1]);
+  //}, 2000);
 }
 
 
