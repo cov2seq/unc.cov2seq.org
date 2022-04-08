@@ -3,7 +3,7 @@ let voi = {
   "B.1.351": "Beta",
   "P.1":"Gamma",
   "B.1.617.2":"Delta",
-  "AY.*": "Delta",
+  "AY": "Delta",
   "B.1.427":"Epsilon",
   "B.1.429":"Epsilon",
   "P.2":"Zeta",
@@ -17,8 +17,30 @@ let voi = {
   "B.1.621": "Mu",
   //"B.1.1.529": "Omicron", // nothing can be assigned here anymore, according to pangolin, all will be BA.*
   "BA.1": "Omicron",
-  "BA.1.1": "Omicron",
+/*
+BA.1.1
+BA.1.1.1
+BA.1.1.10
+BA.1.1.12
+BA.1.1.14
+BA.1.1.15
+BA.1.1.16
+BA.1.1.2
+BA.1.13
+BA.1.14
+BA.1.15
+BA.1.16
+BA.1.17
+BA.1.1.7
+BA.1.1.8
+BA.1.8
+BA.1.9
+*/
   "BA.2": "Omicron (BA.2)",
+/*
+BA.2.1
+BA.2.3
+*/
   "BA.3": "Omicron"
 }
 
@@ -50,9 +72,9 @@ let meta = null; // metadata
 
 function init() {
 
-  document.getElementById("report_date").innerText = "March 31, 2022";
-  document.getElementById("sample_date").innerText = "March 23, 2022";
-  loadText("220331.meta_simple.tsv", function(content) {
+  document.getElementById("report_date").innerText = "April 8, 2022";
+  document.getElementById("sample_date").innerText = "March 30, 2022";
+  loadText("220408.meta_simple.tsv", function(content) {
     temp = [];
     lines = content.trim().split('\n');
     header = lines[0].split('\t');
@@ -107,6 +129,16 @@ function trends(meta, eid2, eid) {
     lineages[l][w]++;
   }
 
+  let is_voi = {};
+  for(l in lineages) {
+    if(l in voi) is_voi[l] = l;
+    else {
+      for(v in voi) {
+        if(l.substr(0, v.length+1) == v+".") is_voi[l] = v; // collect all sublineages thereof
+      }
+    }
+  }
+
   let table = document.createElement("table");
   document.getElementById(eid).appendChild(table);
   let tr = document.createElement("tr");
@@ -121,6 +153,7 @@ function trends(meta, eid2, eid) {
   col.innerText = "# Samples";
   tr.appendChild(col);
 
+  let tot_voi = 0;
   for(v in voi) {
     tr = document.createElement("tr");
     table.appendChild(tr);
@@ -132,34 +165,30 @@ function trends(meta, eid2, eid) {
     tr.appendChild(col);
     col = document.createElement("td");
     let tot = 0;
-    if(v == "AY.*") {
+    if(v in lineages) {
+      for(j = 0; j < lineages[v].length; j++)
+        tot += lineages[v][j];
+    } else {
       for(l in lineages) {
-        if(l.indexOf("AY") != -1) {
+        if(l in is_voi && is_voi[l] == v) { // collect all sublineages thereof
           for(j = 0; j < lineages[l].length; j++)
             tot += lineages[l][j];
         }
       }
-    } else if(v in lineages) {
-      for(j = 0; j < lineages[v].length; j++)
-        tot += lineages[v][j];
-    }
+    } 
+    tot_voi += tot;
     col.innerText = tot;
     tr.appendChild(col);
   }
 
   let tot_all = 0;
-  let voc_all = 0;
-  let non_voi = 0;
   for(l in lineages) {
     for(j = 0; j < lineages[l].length; j++) {
       tot_all += lineages[l][j];
-      if(l in voi || l.indexOf("AY") != -1) {
-        voc_all += lineages[l][j];
-      } else {
-        non_voi += lineages[l][j];
-      }
     }
   }
+  let non_voi = tot_all - tot_voi;
+
   tr = document.createElement("tr");
   table.appendChild(tr);
   tr.appendChild(document.createElement("th"));
@@ -200,7 +229,7 @@ function trends(meta, eid2, eid) {
   for(l in lineages) {
     for(j = 0; j < lineages[l].length; j++) {
       wk_tot[j] += lineages[l][j];
-      if(l in voi || l.indexOf("AY") != -1) {
+      if(l in is_voi) {
         wk_voc[j] += lineages[l][j];
       }
     }
@@ -225,7 +254,7 @@ function trends(meta, eid2, eid) {
     y[i] = [dates[i], 0];
   }
 	for(l in lineages) {
-    if((!(l in voi) && l.indexOf("AY") == -1)) {
+    if((!(l in is_voi)) {
       for(i = 0; i < lineages[l].length; i++) {
         y[i][1] += lineages[l][i];
       }
@@ -251,7 +280,7 @@ function trends(meta, eid2, eid) {
       y[i] = [dates[i], 0];
     }
     for(l in lineages) {
-      if(variants[v].indexOf(l) != -1 || (v == "Delta" && l.indexOf("AY") != -1)) {
+      if(l in is_voi && variants[v].indexOf(is_voi[l]) != -1) {
         for(i = 0; i < lineages[l].length; i++) {
           y[i][1] += lineages[l][i];
         }
