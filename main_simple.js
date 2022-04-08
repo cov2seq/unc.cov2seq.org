@@ -254,7 +254,7 @@ function trends(meta, eid2, eid) {
     y[i] = [dates[i], 0];
   }
 	for(l in lineages) {
-    if((!(l in is_voi)) {
+    if(!(l in is_voi)) {
       for(i = 0; i < lineages[l].length; i++) {
         y[i][1] += lineages[l][i];
       }
