@@ -10,37 +10,11 @@ let voi = {
   "B.1.525":"Eta",
   "P.3": "Theta",
   "B.1.526":"Iota",
-  "B.1.526.1":"Iota",
-  "B.1.526.2":"Iota",
-  "B.1.526.3":"Iota",
   "B.1.617.1":"Kappa",
   "B.1.621": "Mu",
   //"B.1.1.529": "Omicron", // nothing can be assigned here anymore, according to pangolin, all will be BA.*
   "BA.1": "Omicron",
-/*
-BA.1.1
-BA.1.1.1
-BA.1.1.10
-BA.1.1.12
-BA.1.1.14
-BA.1.1.15
-BA.1.1.16
-BA.1.1.2
-BA.1.13
-BA.1.14
-BA.1.15
-BA.1.16
-BA.1.17
-BA.1.1.7
-BA.1.1.8
-BA.1.8
-BA.1.9
-*/
   "BA.2": "Omicron (BA.2)",
-/*
-BA.2.1
-BA.2.3
-*/
   "BA.3": "Omicron"
 }
 
@@ -168,14 +142,14 @@ function trends(meta, eid2, eid) {
     if(v in lineages) {
       for(j = 0; j < lineages[v].length; j++)
         tot += lineages[v][j];
-    } else {
-      for(l in lineages) {
-        if(l in is_voi && is_voi[l] == v) { // collect all sublineages thereof
-          for(j = 0; j < lineages[l].length; j++)
-            tot += lineages[l][j];
-        }
+    }
+    // collect all sublineages thereof
+    for(l in lineages) {
+      if(l != v && l in is_voi && is_voi[l] == v) {
+        for(j = 0; j < lineages[l].length; j++)
+          tot += lineages[l][j];
       }
-    } 
+    }
     tot_voi += tot;
     col.innerText = tot;
     tr.appendChild(col);
@@ -188,6 +162,7 @@ function trends(meta, eid2, eid) {
     }
   }
   let non_voi = tot_all - tot_voi;
+  console.log(tot_all, tot_voi, non_voi);
 
   tr = document.createElement("tr");
   table.appendChild(tr);
