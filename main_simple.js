@@ -14,13 +14,14 @@ let voi = {
   "B.1.621": "Mu",
   //"B.1.1.529": "Omicron", // nothing can be assigned here anymore, according to pangolin, all will be BA.*
   "BA.1": "Omicron",
-  "BA.2": "Omicron (BA.2)",
+  "BA.2.12": "Omicron (BA.2.12)",
+  "BA.2": "Omicron (other BA.2)",
   "BA.3": "Omicron"
 }
 
 // total VOC used to be "#00FF00",
-let cl = ["#AAAAAA", "#00FFFF", "#776600", "#880000", "#FF00FF", "#FF0000", "#FF99AA", "#FFFF00", "#FF7700", "#FFAA33", "#000000"];
-//        Other      Alpha      Beta       Gamma      Delta      Epsilon    Iota       Mu         Omicron    BA.2
+let cl = ["#AAAAAA", "#00FFFF", "#776600", "#880000", "#FF00FF", "#FF0000", "#FF99AA", "#FFFF00", "#FF7700", "#FFDD77", "#FFAA33", "#000000"];
+//        Other      Alpha      Beta       Gamma      Delta      Epsilon    Iota       Mu         Omicron    BA.2.12    BA.2
 
 function loadText(file, callback) {   
   var xobj = new XMLHttpRequest();
