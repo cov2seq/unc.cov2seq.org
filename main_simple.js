@@ -1,23 +1,24 @@
-let voi = {
-  "B.1.1.7": "Alpha",
-  "B.1.351": "Beta",
-  "P.1":"Gamma",
-  "B.1.617.2":"Delta",
-  "AY": "Delta",
-  "B.1.427":"Epsilon",
-  "B.1.429":"Epsilon",
-  "P.2":"Zeta",
-  "B.1.525":"Eta",
-  "P.3": "Theta",
-  "B.1.526":"Iota",
-  "B.1.617.1":"Kappa",
-  "B.1.621": "Mu",
-  //"B.1.1.529": "Omicron", // nothing can be assigned here anymore, according to pangolin, all will be BA.*
-  "BA.1": "Omicron",
-  "BA.2.12": "Omicron (BA.2.12)",
-  "BA.2": "Omicron (other BA.2)",
-  "BA.3": "Omicron"
-}
+let voi_list = [
+  ["B.1.1.7", "Alpha"],
+  ["B.1.351", "Beta"],
+  ["P.1","Gamma"],
+  ["B.1.617.2","Delta"],
+  ["AY", "Delta"],
+  ["B.1.427","Epsilon"],
+  ["B.1.429","Epsilon"],
+  ["P.2","Zeta"],
+  ["B.1.525","Eta"],
+  ["P.3", "Theta"],
+  ["B.1.526","Iota"],
+  ["B.1.617.1","Kappa"],
+  ["B.1.621", "Mu"],
+  [//"B.1.1.529", "Omicron"], // nothing can be assigned here anymore], according to pangolin], all will be BA.*
+  ["BA.1", "Omicron"],
+  ["BA.2.12", "Omicron (BA.2.12)"],
+  ["BA.2", "Omicron (other BA.2)"],
+  ["BA.3", "Omicron"]
+]
+let voi = new Map(voi_list);
 
 // total VOC used to be "#00FF00",
 let cl = ["#AAAAAA", "#00FFFF", "#776600", "#880000", "#FF00FF", "#FF0000", "#FF99AA", "#FFFF00", "#FF7700", "#FFDD77", "#FFAA33", "#000000"];
@@ -104,12 +105,12 @@ function trends(meta, eid2, eid) {
     lineages[l][w]++;
   }
 
-  let is_voi = {};
+  let is_voi = new Map();
   for(l in lineages) {
-    if(l in voi) is_voi[l] = l;
+    if(voi.has(l)) is_voi.set(l, l);
     else {
-      for(v in voi) {
-        if(l.substr(0, v.length+1) == v+".") is_voi[l] = v; // collect all sublineages thereof
+      for(const v of voi.keys()) {
+        if(l.substr(0, v.length+1) == v+".") is_voi.set(l, v); // collect all sublineages thereof
       }
     }
   }
@@ -129,11 +130,11 @@ function trends(meta, eid2, eid) {
   tr.appendChild(col);
 
   let tot_voi = 0;
-  for(v in voi) {
+  for(const v of voi.keys()) {
     tr = document.createElement("tr");
     table.appendChild(tr);
     col = document.createElement("td");
-    col.innerText = voi[v];
+    col.innerText = voi.get(v);
     tr.appendChild(col);
     col = document.createElement("td");
     col.innerText = v;
@@ -146,7 +147,7 @@ function trends(meta, eid2, eid) {
     }
     // collect all sublineages thereof
     for(l in lineages) {
-      if(l != v && l in is_voi && is_voi[l] == v) {
+      if(l != v && is_voi.has(l) && is_voi.get(l) == v) {
         for(j = 0; j < lineages[l].length; j++)
           tot += lineages[l][j];
       }
@@ -205,7 +206,7 @@ function trends(meta, eid2, eid) {
   for(l in lineages) {
     for(j = 0; j < lineages[l].length; j++) {
       wk_tot[j] += lineages[l][j];
-      if(l in is_voi) {
+      if(is_voi.has(l)) {
         wk_voc[j] += lineages[l][j];
       }
     }
@@ -230,7 +231,7 @@ function trends(meta, eid2, eid) {
     y[i] = [dates[i], 0];
   }
 	for(l in lineages) {
-    if(!(l in is_voi)) {
+    if(!is_voi.has(l)) {
       for(i = 0; i < lineages[l].length; i++) {
         y[i][1] += lineages[l][i];
       }
@@ -241,22 +242,22 @@ function trends(meta, eid2, eid) {
   }
   apex.push({"name":"Other", "data":y});
 
-  variants = {}; // a dictionary of <variant> : [list of <pango lineage>]
-  for(pango in voi) {
-    if(!(voi[pango] in variants)) {
-      variants[voi[pango]] = [];
+  variants = new Map(); // a dictionary of <variant> : [list of <pango lineage>]
+  for(const pango of voi.keys()) {
+    if(!variants.has(voi.get(pango)) {
+      variants.set(voi.get(pango), []);
     }
-    variants[voi[pango]].push(pango);
+    variants.get(voi.get(pango)).push(pango); // get() returns a reference to the array object
   }
 
-  for(v in variants) {
+  for(const v of variants.keys()) {
     if(["-", "Zeta", "Theta", "Kappa", "Eta"].indexOf(v) != -1) continue;
     y = new Array(dates.length);
     for(var i = 0; i < dates.length; i++) {
       y[i] = [dates[i], 0];
     }
     for(l in lineages) {
-      if(l in is_voi && variants[v].indexOf(is_voi[l]) != -1) {
+      if(is_voi.has(l) && variants.get(v).indexOf(is_voi.get(l)) != -1) {
         for(i = 0; i < lineages[l].length; i++) {
           y[i][1] += lineages[l][i];
         }
