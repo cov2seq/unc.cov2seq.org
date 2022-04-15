@@ -12,7 +12,7 @@ let voi_list = [
   ["B.1.526","Iota"],
   ["B.1.617.1","Kappa"],
   ["B.1.621", "Mu"],
-  [//"B.1.1.529", "Omicron"], // nothing can be assigned here anymore], according to pangolin], all will be BA.*
+  //["B.1.1.529", "Omicron"], // nothing can be assigned here anymore], according to pangolin], all will be BA.*
   ["BA.1", "Omicron"],
   ["BA.2.12", "Omicron (BA.2.12)"],
   ["BA.2", "Omicron (other BA.2)"],
