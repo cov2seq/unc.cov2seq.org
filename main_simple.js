@@ -244,7 +244,7 @@ function trends(meta, eid2, eid) {
 
   variants = new Map(); // a dictionary of <variant> : [list of <pango lineage>]
   for(const pango of voi.keys()) {
-    if(!variants.has(voi.get(pango)) {
+    if(!variants.has(voi.get(pango))) {
       variants.set(voi.get(pango), []);
     }
     variants.get(voi.get(pango)).push(pango); // get() returns a reference to the array object
