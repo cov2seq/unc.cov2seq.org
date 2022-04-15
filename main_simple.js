@@ -13,7 +13,7 @@ let voi_list = [
   ["B.1.617.1","Kappa"],
   ["B.1.621", "Mu"],
   //["B.1.1.529", "Omicron"], // nothing can be assigned here anymore], according to pangolin], all will be BA.*
-  ["BA.1", "Omicron"],
+  ["BA.1", "Omicron (BA.1)"],
   ["BA.2.12", "Omicron (BA.2.12)"],
   ["BA.2", "Omicron (other BA.2)"],
   ["BA.3", "Omicron"]
@@ -110,7 +110,10 @@ function trends(meta, eid2, eid) {
     if(voi.has(l)) is_voi.set(l, l);
     else {
       for(const v of voi.keys()) {
-        if(l.substr(0, v.length+1) == v+".") is_voi.set(l, v); // collect all sublineages thereof
+        if(l.substr(0, v.length+1) == v+".") {
+          is_voi.set(l, v); // collect all sublineages thereof
+          break;
+        }
       }
     }
   }
@@ -164,7 +167,6 @@ function trends(meta, eid2, eid) {
     }
   }
   let non_voi = tot_all - tot_voi;
-  console.log(tot_all, tot_voi, non_voi);
 
   tr = document.createElement("tr");
   table.appendChild(tr);
