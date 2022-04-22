@@ -16,12 +16,13 @@ let voi_list = [
   ["BA.1", "Omicron (BA.1)"],
   ["BA.2.12", "Omicron (BA.2.12)"],
   ["BA.2", "Omicron (other BA.2)"]
+  ["BA.5", "Omicron (BA.5)"]
 ]
 let voi = new Map(voi_list);
 
 // total VOC used to be "#00FF00",
-let cl = ["#AAAAAA", "#00FFFF", "#776600", "#880000", "#FF00FF", "#FF0000", "#FF99AA", "#FFFF00", "#FF7700", "#FFDD77", "#FFAA33", "#000000"];
-//        Other      Alpha      Beta       Gamma      Delta      Epsilon    Iota       Mu         Omicron    BA.2.12    BA.2
+let cl = ["#AAAAAA", "#00FFFF", "#776600", "#880000", "#FF00FF", "#FF0000", "#FF99AA", "#FFFF00", "#FF7700", "#FFDD77", "#FFAA33", "#AA3300", "#000000"];
+//        Other      Alpha      Beta       Gamma      Delta      Epsilon    Iota       Mu         Omicron    BA.2.12    BA.2       BA.5
 
 function loadText(file, callback) {   
   var xobj = new XMLHttpRequest();
