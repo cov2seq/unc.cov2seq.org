@@ -49,9 +49,9 @@ let meta = null; // metadata
 
 function init() {
 
-  document.getElementById("report_date").innerText = "April 28, 2022";
-  document.getElementById("sample_date").innerText = "April 20, 2022";
-  loadText("220428.meta_simple.tsv", function(content) {
+  document.getElementById("report_date").innerText = "May 5, 2022";
+  document.getElementById("sample_date").innerText = "April 27, 2022";
+  loadText("220505.meta_simple.tsv", function(content) {
     temp = [];
     lines = content.trim().split('\n');
     header = lines[0].split('\t');
