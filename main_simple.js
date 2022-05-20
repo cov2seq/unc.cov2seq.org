@@ -17,13 +17,14 @@ let voi_list = [
   ["BA.2.12", "Omicron (BA.2.12)"],
   ["BA.2", "Omicron (other BA.2)"],
   ["BA.5", "Omicron (BA.5)"],
-  ["XE", "Omicron (BA.1/BA.2 recombinant)"]
+  ["XE", "Omicron (recombinant)"]
+  ["XM", "Omicron (recombinant)"]
 ]
 let voi = new Map(voi_list);
 
 // total VOC used to be "#00FF00",
 let cl = ["#AAAAAA", "#00FFFF", "#776600", "#880000", "#FF00FF", "#FF0000", "#FF99AA", "#FFFF00", "#FF7700", "#FFDD77", "#FFAA33", "#AA3300", "#0000FF", "#000000"];
-//        Other      Alpha      Beta       Gamma      Delta      Epsilon    Iota       Mu         Omicron    BA.2.12    BA.2       BA.5       XE
+//        Other      Alpha      Beta       Gamma      Delta      Epsilon    Iota       Mu         Omicron    BA.2.12    BA.2       BA.5       X*
 
 function loadText(file, callback) {   
   var xobj = new XMLHttpRequest();
@@ -49,9 +50,9 @@ let meta = null; // metadata
 
 function init() {
 
-  document.getElementById("report_date").innerText = "May 15, 2022";
-  document.getElementById("sample_date").innerText = "May 4, 2022";
-  loadText("220514.meta_simple.tsv", function(content) {
+  document.getElementById("report_date").innerText = "May 20, 2022";
+  document.getElementById("sample_date").innerText = "May 10, 2022";
+  loadText("220520.meta_simple.tsv", function(content) {
     temp = [];
     lines = content.trim().split('\n');
     header = lines[0].split('\t');
