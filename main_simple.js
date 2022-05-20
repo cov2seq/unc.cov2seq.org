@@ -17,7 +17,7 @@ let voi_list = [
   ["BA.2.12", "Omicron (BA.2.12)"],
   ["BA.2", "Omicron (other BA.2)"],
   ["BA.5", "Omicron (BA.5)"],
-  ["XE", "Omicron (recombinant)"]
+  ["XE", "Omicron (recombinant)"],
   ["XM", "Omicron (recombinant)"]
 ]
 let voi = new Map(voi_list);
