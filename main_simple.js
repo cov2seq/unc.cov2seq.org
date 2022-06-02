@@ -24,7 +24,7 @@ let voi_list = [
 let voi = new Map(voi_list);
 
 // total VOC used to be "#00FF00",
-let cl = ["#AAAAAA", "#00FFFF", "#776600", "#880000", "#FF00FF", "#FF0000", "#FF99AA", "#FFFF00", "#FF7700", "#FFDD77", "#FFAA33", "#EE7700", "#AA3300", "#0000FF", "#000000"];
+let cl = ["#AAAAAA", "#00FFFF", "#776600", "#880000", "#FF00FF", "#FF0000", "#FF99AA", "#FFFF00", "#FF7700", "#FFDD77", "#FFAA33", "#00AA00", "#AA3300", "#0000FF", "#000000"];
 //        Other      Alpha      Beta       Gamma      Delta      Epsilon    Iota       Mu         Omicron    BA.2.12    BA.2       BA.4       BA.5       X*
 
 function loadText(file, callback) {   
