@@ -18,8 +18,9 @@ let voi_list = [
   ["BA.2", "Omicron (other BA.2)"],
   ["BA.4", "Omicron (BA.4)"],
   ["BA.5", "Omicron (BA.5)"],
-  ["BF.1", "Omicron (BA.5)"],
-  ["BE.1", "Omicron (BA.5)"],
+  ["BF", "Omicron (BA.5)"],
+  ["BE", "Omicron (BA.5)"],
+  ["BG", "Omicron (BA.2)"],
   ["XE", "Omicron (recombinant)"],
   ["XM", "Omicron (recombinant)"]
 ]
@@ -53,9 +54,9 @@ let meta = null; // metadata
 
 function init() {
 
-  document.getElementById("report_date").innerText = "July 15, 2022";
-  document.getElementById("sample_date").innerText = "July 7, 2022";
-  loadText("220715.meta_simple.tsv", function(content) {
+  document.getElementById("report_date").innerText = "July 22, 2022";
+  document.getElementById("sample_date").innerText = "July 13, 2022";
+  loadText("220722.meta_simple.tsv", function(content) {
     temp = [];
     lines = content.trim().split('\n');
     header = lines[0].split('\t');
