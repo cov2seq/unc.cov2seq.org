@@ -15,7 +15,9 @@ let voi_list = [
   //["B.1.1.529", "Omicron"], // nothing can be assigned here anymore], according to pangolin], all will be BA.*
   ["BA.1", "Omicron (BA.1)"],
   ["BA.2.12", "Omicron (BA.2.12)"],
-  ["BA.2", "Omicron (other BA.2)"],
+  ["BA.2.75", "Omicron (BA.2.75)"],
+  ["BA.2", "Omicron (BA.2)"],
+  ["BA.4.6", "Omicron (BA.4.6)"],
   ["BA.4", "Omicron (BA.4)"],
   ["BA.5", "Omicron (BA.5)"],
   ["BF", "Omicron (BA.5)"],
@@ -27,8 +29,8 @@ let voi_list = [
 let voi = new Map(voi_list);
 
 // total VOC used to be "#00FF00",
-let cl = ["#AAAAAA", "#00FFFF", "#776600", "#880000", "#FF00FF", "#FF0000", "#FF99AA", "#FFFF00", "#FF7700", "#FFDD77", "#FFAA33", "#00AA00", "#AA3300", "#0000FF", "#000000"];
-//        Other      Alpha      Beta       Gamma      Delta      Epsilon    Iota       Mu         Omicron    BA.2.12    BA.2       BA.4       BA.5       X*
+let cl = ["#AAAAAA", "#00FFFF", "#776600", "#880000", "#FF00FF", "#FF0000", "#FF99AA", "#FFFF00", "#FF7700", "#FFDD77", "#FF3300", "#FFAA33", "#0000FF", "#00AA00", "#AA3300", "#000000"];
+//        Other      Alpha      Beta       Gamma      Delta      Epsilon    Iota       Mu         Omicron    BA.2.12    BA.2.75    BA.2       BA.4.6     BA.4       BA.5       X*
 
 function loadText(file, callback) {   
   var xobj = new XMLHttpRequest();
@@ -54,9 +56,9 @@ let meta = null; // metadata
 
 function init() {
 
-  document.getElementById("report_date").innerText = "August 12, 2022";
-  document.getElementById("sample_date").innerText = "August 3, 2022";
-  loadText("220812.meta_simple.tsv", function(content) {
+  document.getElementById("report_date").innerText = "August 18, 2022";
+  document.getElementById("sample_date").innerText = "August 10, 2022";
+  loadText("220818.meta_simple.tsv", function(content) {
     temp = [];
     lines = content.trim().split('\n');
     header = lines[0].split('\t');
