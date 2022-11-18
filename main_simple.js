@@ -29,6 +29,8 @@ let voi_list = [
   ["BN", "Omicron (BA.2)"],
   ["BQ.1.1", "Omicron (BA.5)"],
   ["BQ", "Omicron (BA.5)"],
+  ["BU", "Omicron (BA.5)"],
+  ["CK", "Omicron (BA.5)"],
   ["XE", "Omicron (recombinant)"],
   ["XM", "Omicron (recombinant)"],
   ["XAZ", "Omicron (recombinant)"],
