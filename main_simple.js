@@ -87,7 +87,7 @@ function init() {
 
 let lineages = {}; //pango lineage
 let wk_tot;
-let recent_vocs = ["CK.1", "BQ.1.1", "XBB", "BA.5.2", "BA.4.6", "BN.1"];
+let recent_vocs = ["BA.4.6", "BA.5.2", "BF.1", "BN.1", "BQ.1", "BQ.1.1", "CK.1", "XBB"];
 let is_voi;
 
 function add_lin() {
