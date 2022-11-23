@@ -65,7 +65,6 @@ let apex = null; // chart
 let meta = null; // metadata
 
 function init() {
-
   document.getElementById("report_date").innerText = "November 18, 2022";
   document.getElementById("sample_date").innerText = "November 9, 2022";
   loadText("221118.meta_simple.tsv", function(content) {
@@ -82,7 +81,76 @@ function init() {
     document.getElementById("sample_count").innerText = (lines.length-1).toLocaleString("en-US");
     meta = temp; // we use the temp to reduce the time that 'meta' is not null such that check_var() could come up true without meta being fully populated
     trends(meta, "variants", "voc");
+    voc_table(meta, "recent_voc");
   });
+}
+
+let lineages = {}; //pango lineage
+let wk_tot;
+let recent_vocs = ["CK.1", "BQ.1.1", "XBB", "BA.5.2", "BA.4.6", "BN.1"];
+let is_voi;
+
+function add_lin() {
+  lin = document.getElementById("lin").value;
+  if(!(lin in lineages)) {
+    alert("Lineage '" + lin + "' was not found");
+    return;
+  }
+  recent_vocs.push(lin);
+  voc_table(meta, "recent_voc");
+}
+
+function voc_table(meta, eid) {
+  let max_week = 0;
+  for(sample in meta) {
+    if(parseInt(meta[sample]["isoweek"]) > max_week) {
+      max_week = parseInt(meta[sample]["isoweek"]);
+    }
+  }
+  let dates = [];
+  let st = new Date(2021, 0, 4, 12); // Jan 4 at 12pm
+  for(var w = 0; w < max_week; w++) {
+    let en = new Date(st.getTime());;
+    en.setDate(en.getDate() + 6);
+    //dates.push("Week of " + st.toLocaleString('default', { month: 'long' }) + " " + st.getDate() + ", " + (1900+st.getYear()));
+    dates.push(st.getTime());
+    st.setDate(st.getDate() + 7);
+  }
+
+  let table = document.createElement("table");
+  document.getElementById(eid).innerHTML = "";
+  document.getElementById(eid).appendChild(table);
+  let tr = document.createElement("tr");
+  table.appendChild(tr);
+  col = document.createElement("th");
+  col.innerText = "Pango lineage";
+  tr.appendChild(col);
+  for(var wk = max_week-8; wk < max_week; wk++) {
+    col = document.createElement("th");
+    let d = (new Date(dates[wk])).toLocaleDateString("en-US");
+    col.innerText = d.substring(0,d.length-5) + "-";// + (new Date(dates[wk]).getDate()+6).toLocaleDateString("en-US");
+    tr.appendChild(col);
+  }
+  for(let i = 0; i < recent_vocs.length; i++) {
+    let v = recent_vocs[i];
+    tr = document.createElement("tr");
+    table.appendChild(tr);
+    col = document.createElement("td");
+    col.innerText = v;
+    tr.appendChild(col);
+    for(j = max_week-8; j < max_week; j++) {
+      let ct = 0;
+      for(l in lineages) {
+        if(l == v || l.substr(0, v.length+1) == v+".") {
+          ct = ct + lineages[l][j];
+        }
+      }
+      col = document.createElement("td");
+      //ct = (j in lineages[l] ? lineages[l][j] : 0);
+      col.innerText = ct + " (" + (ct/wk_tot[j]*100).toFixed(2) + "%)";
+      tr.appendChild(col);
+    }
+  }
 }
 
 function trends(meta, eid2, eid) {
@@ -105,7 +173,6 @@ function trends(meta, eid2, eid) {
     st.setDate(st.getDate() + 7);
   }
 
-  let lineages = {}; //pango lineage
   cts = new Array(dates.length).fill(0);
   for(id in meta) {
     let l = meta[id]["lineage"];
@@ -123,7 +190,7 @@ function trends(meta, eid2, eid) {
     lineages[l][w]++;
   }
 
-  let is_voi = new Map();
+  is_voi = new Map();
   for(l in lineages) {
     if(voi.has(l)) is_voi.set(l, l);
     else {
@@ -222,7 +289,7 @@ function trends(meta, eid2, eid) {
   tr.appendChild(col);
 
   let wk_voc = new Array(dates.length).fill(0);
-  let wk_tot = new Array(dates.length).fill(0);
+  wk_tot = new Array(dates.length).fill(0);
   for(l in lineages) {
     for(j = 0; j < lineages[l].length; j++) {
       wk_tot[j] += lineages[l][j];
