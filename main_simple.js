@@ -26,6 +26,7 @@ let voi_list = [
   ["BK", "Omicron (BA.5)"],
   ["BG", "Omicron (BA.2)"],
   ["BL", "Omicron (BA.2)"],
+  ["BM", "Omicron (BA.2)"],
   ["BN", "Omicron (BA.2)"],
   ["BQ.1.1", "Omicron (BA.5)"],
   ["BQ", "Omicron (BA.5)"],
