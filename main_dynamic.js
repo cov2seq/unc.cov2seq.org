@@ -551,7 +551,7 @@ function trends(meta, eid2, eid, eid3) {
         tr = document.createElement("tr");
         table.appendChild(tr);
         col = document.createElement("td");
-        col.innerHTML = "&boxh;".repeat(lca.split('.').length) + " " + aliased_lca;
+        col.innerHTML = "&boxh;".repeat(lca.split('.').length) + "&nbsp;" + aliased_lca;
         tr.appendChild(col);
       }
       
@@ -560,7 +560,7 @@ function trends(meta, eid2, eid, eid3) {
     tr = document.createElement("tr");
     table.appendChild(tr);
     col = document.createElement("td");
-    col.innerHTML = "&boxh;".repeat(v.depth) + " " + v.get_name();
+    col.innerHTML = "&boxh;".repeat(v.depth) + "&nbsp;" + v.get_name();
     tr.appendChild(col);
     for(j = max_week-8; j < max_week; j++) {
       ct = v.get_total(j);
