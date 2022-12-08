@@ -209,10 +209,11 @@ class Lineage {
   get(week) {
     return (week in this.weekly_cts) ? this.weekly_cts[week] : 0;
   }
-  get_total(week) {
+  get_total(week, exclude) {
     let t = (week in this.weekly_cts) ? this.weekly_cts[week] : 0;
     for(let i = 0; i < this.children.length; i++) {
-      t = t + this.children[i].get_total(week);
+      if(exclude.indexOf(this.children[i].get_name()) == -1)
+        t = t + this.children[i].get_total(week, exclude);
     }
     return t;
   }
@@ -285,7 +286,7 @@ class LineageTree {
   }
 }
 
-let voi_list = ["BA.4", "BA.5", "BA.2", "BA.4.6", "BA.5.2", "BF.7", "BN.1", "BQ.1", "BQ.1.1", "CK.1", "XBB", "BA.2.75"];
+let voi_list = ["BA.5", "BA.2", "BA.4.6", "BA.5.2", "BF.7", "BN.1", "BQ.1", "BQ.1.1", "CK.1", "XBB", "BA.2.75"];
 
 let voi_lookup = {};
 
@@ -468,24 +469,34 @@ function trends(meta, eid2, eid, eid3) {
       y[i] = [dates[i], 0];
     }
     for(i = 0; i < y.length; i++) {
-      y[i][1] = voi_lookup[v].get_total(i)
+      y[i][1] = voi_lookup[v].get_total(i, voi_list)
     }
     for(var j = 0; j < y.length; j++) {
       y[j][1] = y[j][1] / weekly_counts[j] * 100;
     }
-    apex.push({"name":v, "data":y});
+    apex.push({"name":v, "data":y.slice(y.length-15, y.length)});
   }
 
   var options = {
     colors: colors,
     chart: {
-      type: 'line',
+      //type: 'line',
+      type: 'bar',
+      stacked: true,
       width: "100%",
       height: "400px",
       events : {
+        /*
         beforeZoom : (e, {xaxis}) => {
-          return {xaxis: {min:(xaxis.min < dates[0] ? dates[0] : xaxis.min), max:(xaxis.max > dates[dates.length-1] ? dates[dates.length-1] : xaxis.max)}};
+          return {xaxis: {min:(xaxis.min < use_dates[0] ? use_dates[0] : xaxis.min), max:(xaxis.max > use_dates[use_dates.length-1] ? use_dates[use_dates.length-1] : xaxis.max)}};
         }
+        */
+      }
+    },
+    dataLabels: {
+      enabled: false,
+      formatter: function (val, opts) {
+          return parseInt(val);
       }
     },
     stroke: {
@@ -506,8 +517,8 @@ function trends(meta, eid2, eid, eid3) {
     series: apex,
     xaxis: {
       type: "datetime",
-      min: dates[0],
-      max: dates[dates.length-1],
+      min: apex[0]["data"][0][0],
+      max: apex[0]["data"][apex[0]["data"].length-1][0],
     },
     tooltip: {
       y: {
@@ -522,7 +533,7 @@ function trends(meta, eid2, eid, eid3) {
   var chart = new ApexCharts(document.querySelector('#'+eid2), options);
   chart.render();
   //setTimeout(function() {
-  chart.zoomX(dates[dates.length-15], dates[dates.length-1]);
+  //chart.zoomX(dates[dates.length-15], dates[dates.length-1]);
   //}, 2000);
   
 
@@ -538,7 +549,7 @@ function trends(meta, eid2, eid, eid3) {
   for(var wk = max_week-8; wk < max_week; wk++) {
     col = document.createElement("th");
     let d = (new Date(dates[wk])).toLocaleDateString("en-US");
-    col.innerText = d.substring(0,d.length-5) + "-";// + (new Date(dates[wk]).getDate()+6).toLocaleDateString("en-US");
+    col.innerHTML = d.substring(0,d.length-5) + "-<br/><a style='color:gray'># (%/wk)</a>";// + (new Date(dates[wk]).getDate()+6).toLocaleDateString("en-US");
     tr.appendChild(col);
   }
   let prev = null;
@@ -563,7 +574,10 @@ function trends(meta, eid2, eid, eid3) {
     col.innerHTML = "&boxh;".repeat(v.depth) + "&nbsp;" + v.get_name();
     tr.appendChild(col);
     for(j = max_week-8; j < max_week; j++) {
-      ct = v.get_total(j);
+      // exclude any lineages in voi_list that are children of this one (ex. BA.5 should exclude BQ.1)
+      ct = v.get_total(j, exclude=voi_list);
+      for(let i = 0; i < voi_list.length; i++) {
+      }
       col = document.createElement("td");
       //ct = (j in lineages[l] ? lineages[l][j] : 0);
       if(ct > 0)
