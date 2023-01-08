@@ -314,9 +314,9 @@ function loadJSON(file, callback) {
 let meta = null; // metadata
 
 function init() {
-  document.getElementById("report_date").innerText = "December 26, 2022";
-  document.getElementById("sample_date").innerText = "December 17, 2022";
-  loadText("221226.meta_simple.tsv", function(content) {
+  document.getElementById("report_date").innerText = "January 7, 2023";
+  document.getElementById("sample_date").innerText = "January 1, 2023";
+  loadText("230107.meta_simple.tsv", function(content) {
     temp = [];
     lines = content.trim().split('\n');
     header = lines[0].split('\t');
