@@ -286,7 +286,7 @@ class LineageTree {
   }
 }
 
-let voi_list = ["BA.5", "BA.2", "BA.4.6", "BA.5.2", "BF.7", "BN.1", "BQ.1", "BQ.1.1", "CK.1", "XBB", "BA.2.75"];
+let voi_list = ["BA.5", "BA.2", "BA.2.75", "BA.4.6", "BA.5.2", "BF.7", "BN.1", "BQ.1", "BQ.1.1", "CK.1", "XBB", "XBB.1.5"];
 
 let voi_lookup = {};
 
@@ -314,9 +314,9 @@ function loadJSON(file, callback) {
 let meta = null; // metadata
 
 function init() {
-  document.getElementById("report_date").innerText = "January 7, 2023";
-  document.getElementById("sample_date").innerText = "January 1, 2023";
-  loadText("230107.meta_simple.tsv", function(content) {
+  document.getElementById("report_date").innerText = "January 14, 2023";
+  document.getElementById("sample_date").innerText = "January 8, 2023";
+  loadText("230114.meta_simple.tsv", function(content) {
     temp = [];
     lines = content.trim().split('\n');
     header = lines[0].split('\t');
