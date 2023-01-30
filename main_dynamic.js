@@ -97,6 +97,18 @@ let aliases = {
     "DJ": "B.1.1.529.5.1.25",
     "DK": "B.1.1.529.5.3.1.1.1.1.1.1.7",
     "DL": "B.1.1.529.5.1.15",
+    "DM": "B.1.1.529.5.3.1.1.1.1.1.1.15",
+    "DN": "B.1.1.529.5.3.1.1.1.1.1.1.5",
+    "DP": "B.1.1.529.5.3.1.1.1.1.1.1.8",
+    "DQ": "B.1.1.529.5.2.47",
+    "DR": "B.1.1.529.5.3.1.1.1.1.1.1.3",
+    "DS": "B.1.1.529.2.75.5.1.3.1",
+    "DT": "B.1.1.529.5.3.1.1.1.1.1.1.32",
+    "DU": "B.1.1.529.5.3.1.1.1.1.1.1.2",
+    "DV": "B.1.1.529.2.75.3.4.1.1.1.1.1",
+    "DW": "B.1.1.529.5.3.1.1.2.1",
+    "DY": "B.1.1.529.5.2.48",
+    "DZ": "B.1.1.529.5.2.49",
     "XA": ["B.1.1.7","B.1.177"],
     "XB": ["B.1.634","B.1.631"],
     "XC": ["AY.29","B.1.1.7"],
@@ -314,9 +326,9 @@ function loadJSON(file, callback) {
 let meta = null; // metadata
 
 function init() {
-  document.getElementById("report_date").innerText = "January 14, 2023";
-  document.getElementById("sample_date").innerText = "January 8, 2023";
-  loadText("230114.meta_simple.tsv", function(content) {
+  document.getElementById("report_date").innerText = "January 30, 2023";
+  document.getElementById("sample_date").innerText = "January 23, 2023";
+  loadText("230130.meta_simple.tsv", function(content) {
     temp = [];
     lines = content.trim().split('\n');
     header = lines[0].split('\t');
