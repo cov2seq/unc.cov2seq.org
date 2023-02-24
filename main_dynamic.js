@@ -354,10 +354,10 @@ function add_lin() {
   voi_list.push(lin);
   // this should be all we need to clear globally to recreate everything from scratch:
   voi_lookup = {};
-  trends(meta, "variants", "voc", "recent_voc");
+  trends(meta, "variants", "voc", "recent_voc", true);
 }
 
-function trends(meta, eid2, eid, eid3) {
+function trends(meta, eid2, eid, eid3, plot_all) {
   // parse weeks, find maximum week
   // 2021 week 1 start with Jan 4 (Monday)
   let max_week = 0;
@@ -486,7 +486,11 @@ function trends(meta, eid2, eid, eid3) {
     for(var j = 0; j < y.length; j++) {
       y[j][1] = y[j][1] / weekly_counts[j] * 100;
     }
-    apex.push({"name":v, "data":y.slice(y.length-15, y.length)});
+    if(plot_all) {
+      apex.push({"name":v, "data":y});
+    } else {
+      apex.push({"name":v, "data":y.slice(y.length-15, y.length)});
+    }
   }
 
   var options = {
