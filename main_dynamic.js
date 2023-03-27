@@ -326,9 +326,9 @@ function loadJSON(file, callback) {
 let meta = null; // metadata
 
 function init() {
-  document.getElementById("report_date").innerText = "March 11, 2023";
-  document.getElementById("sample_date").innerText = "March 5, 2023";
-  loadText("230311.meta_simple.tsv", function(content) {
+  document.getElementById("report_date").innerText = "March 27, 2023";
+  document.getElementById("sample_date").innerText = "March 19, 2023";
+  loadText("230327.meta_simple.tsv", function(content) {
     temp = [];
     lines = content.trim().split('\n');
     header = lines[0].split('\t');
