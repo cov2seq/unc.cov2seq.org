@@ -393,7 +393,6 @@ function add_lin() {
   voi_list.push(lin);
   // this should be all we need to clear globally to recreate everything from scratch:
   voi_lookup = {};
-  trends(meta, "variants", "voc", "recent_voc", true);
 }
 
 function show_all() {
@@ -536,7 +535,7 @@ function trends(meta, eid2, eid, eid3, plot_all) {
     }
   }
 
-  var options = {
+  let options = {
     colors: colors,
     chart: {
       //type: 'line',
