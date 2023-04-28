@@ -396,6 +396,10 @@ function add_lin() {
   trends(meta, "variants", "voc", "recent_voc", true);
 }
 
+function show_all() {
+  trends(meta, "variants", "voc", "recent_voc", true);
+}
+
 function trends(meta, eid2, eid, eid3, plot_all) {
   // parse weeks, find maximum week
   // 2021 week 1 start with Jan 4 (Monday)
